@@ -45,6 +45,11 @@ def create_dataset_csv(input_csv_path: str, output_csv_path: str):
             'posicion_respecto_inicio':None,
             'posicion_respecto_final':None,
             'categoria': df.loc[i, 'categoria'],
+            'es_nombre': df.loc[i, 'es_nombre'],
+            'es_apellido': df.loc[i, 'es_apellido'],
+            'es_pais': df.loc[i, 'es_pais'],
+            'es_sigla': df.loc[i, 'es_sigla'],
+            'es_marca': df.loc[i, 'es_marca'],
             'punt_inicial': old.punt_inicial,
             'punt_final':old.punt_final,
             'capitalización':old.capitalización
@@ -110,4 +115,4 @@ def create_dataset_csv(input_csv_path: str, output_csv_path: str):
     df_output = pd.DataFrame(all_rows)
     df_output.to_csv(output_csv_path, index=False)
 
-create_dataset_csv("ejemplo_con_categoria.csv", "dataset_final.csv")
+create_dataset_csv("categorized.csv", "out.csv")
