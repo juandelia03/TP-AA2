@@ -108,7 +108,6 @@ def create_dataset_csv(input_csv_path: str, output_csv_path: str):
     
     # Crear DataFrame y guardar
     df_output = pd.DataFrame(all_rows)
-    df_output.drop('embedding_actual', axis=1, inplace=True)  # Dropear la columna
     df_output.to_csv(output_csv_path, index=False)
 
 create_dataset_csv("ejemplo_con_categoria.csv", "dataset_final.csv")
