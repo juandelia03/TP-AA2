@@ -37,7 +37,7 @@ palabra_actual = []
 
 # Iterar por filas
 for idx, row in df.iterrows():
-    token = row['token']
+    token = str(row['token'])
     
     if not token.startswith('##'):
         # Procesar palabra anterior si existe

@@ -12,10 +12,11 @@ def get_multilingual_token_embedding(token: str):
     """
     Devuelve el embedding (estático) para el token.
     """
+    token = str(token)
     token_id = tokenizer.convert_tokens_to_ids(token)
     if token_id is None or token_id == tokenizer.unk_token_id:
         # print(f"❌ El token '{token}' no pertenece al vocabulario de multilingual BERT.")
-        return None
+        return model.embeddings.word_embeddings.weight[tokenizer.unk_token_id]
     embedding_vector = model.embeddings.word_embeddings.weight[token_id]
     # print(f"✅ Token: '{token}' | ID: {token_id}")
     # print(f"Embedding shape: {embedding_vector.shape}")
@@ -95,6 +96,9 @@ def create_dataset_csv(input_csv_path: str, output_csv_path: str):
                 rows[j]['distancia_promedio'] = cosine_distance(rows[j]['embedding_actual'], emb_promedio)
                 rows[j]['posicion_respecto_final'] = (len(rows) - 1) - j
                 all_rows.append(rows[j])
+                del rows[j]['prev_embedding']
+                del rows[j]['next_embedding']
+                del rows[j]['embedding_actual']
             rows = []
             indice_actual = 0
 
@@ -102,17 +106,10 @@ def create_dataset_csv(input_csv_path: str, output_csv_path: str):
 # ...existing code...
 
     ## Ahora creo el dataframe final y lo guardo en un csv
-    #gepeto dice que los embedding hay q pasarlos a lista
-    for row in all_rows:
-        if row['prev_embedding'] is not None:
-            row['prev_embedding'] = row['prev_embedding'].tolist()
-        if row['next_embedding'] is not None:
-            row['next_embedding'] = row['next_embedding'].tolist()
-        if row['embedding_actual'] is not None:
-            row['embedding_actual'] = row['embedding_actual'].tolist()
-    
     # Crear DataFrame y guardar
     df_output = pd.DataFrame(all_rows)
+
     df_output.to_csv(output_csv_path, index=False)
+
 
 create_dataset_csv("categorized.csv", "out.csv")
