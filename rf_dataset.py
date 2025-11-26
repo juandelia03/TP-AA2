@@ -15,11 +15,8 @@ def get_multilingual_token_embedding(token: str):
     token = str(token)
     token_id = tokenizer.convert_tokens_to_ids(token)
     if token_id is None or token_id == tokenizer.unk_token_id:
-        # print(f"❌ El token '{token}' no pertenece al vocabulario de multilingual BERT.")
         return model.embeddings.word_embeddings.weight[tokenizer.unk_token_id]
     embedding_vector = model.embeddings.word_embeddings.weight[token_id]
-    # print(f"✅ Token: '{token}' | ID: {token_id}")
-    # print(f"Embedding shape: {embedding_vector.shape}")
     return embedding_vector
 
 def cosine_distance(emb1, emb2):
@@ -102,11 +99,7 @@ def create_dataset_csv(input_csv_path: str, output_csv_path: str):
             rows = []
             indice_actual = 0
 
-    ## Ahora creo el dataframe final y lo guardo en un csv
-# ...existing code...
-
-    ## Ahora creo el dataframe final y lo guardo en un csv
-    # Crear DataFrame y guardar
+    # Crear csv
     df_output = pd.DataFrame(all_rows)
 
     df_output.to_csv(output_csv_path, index=False)
