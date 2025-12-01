@@ -1,0 +1,5 @@
+flask
+flask-cors
+transformers
+gunicorn
+torch --index-url https://download.pytorch.org/whl/cpu
